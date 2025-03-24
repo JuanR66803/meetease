@@ -30,7 +30,12 @@ pool.connect()
 app.use(express.json());
 app.use(cors());
 
-// Rutas
+// Ruta de prueba para verificar el backend
+app.get("/", (req, res) => {
+    res.json({ message: "MeetEase Backend funcionando correctamente 🚀" });
+});
+
+// Rutas de la API
 app.use("/api", authRoutes);
 
 // Iniciar servidor
@@ -40,4 +45,5 @@ if (process.env.NODE_ENV !== "test") {
     });
 }
 
-export default app; // Exportar app para pruebas
+export default app;
+// Exportar app para pruebas
