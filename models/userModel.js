@@ -3,7 +3,7 @@ import db from "../config/db.js";
 export const findUserByEmail = async (email) => {
     try {
         console.log("🔍 Ejecutando consulta para buscar usuario...");
-        const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
         return result.rows[0]; // Si el usuario existe, devuelve el objeto, si no, devuelve undefined
     } catch (error) {
         console.error("❌ Error en findUserByEmail:", error);
