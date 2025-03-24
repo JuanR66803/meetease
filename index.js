@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import pkg from "pg"; // Importa 'pg' para conectar con PostgreSQL
 const { Pool } = pkg;
 
-import authRoutes from "./routes/authRoute.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config(); // Cargar variables de entorno
 
