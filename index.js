@@ -2,22 +2,42 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes.js";
+import pkg from "pg"; // Importa 'pg' para conectar con PostgreSQL
+const { Pool } = pkg;
 
-dotenv.config();
+import authRoutes from "./routes/authRoute.js";
+
+dotenv.config(); // Cargar variables de entorno
 
 const app = express();
 const port = process.env.PORT || 5000;
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
+// Configurar conexión a la base de datos
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
+
+// Verificar conexión a la base de datos
+pool.connect()
+    .then(() => console.log("✅ Conectado a PostgreSQL"))
+    .catch((err) => console.error("❌ Error conectando a PostgreSQL:", err));
+
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
+// Rutas
 app.use("/api", authRoutes);
 
+// Iniciar servidor
 if (process.env.NODE_ENV !== "test") {
     app.listen(port, () => {
-    console.log(`Servidor corriendo en ${process.env.BASE_URL || "http://localhost:" + port}`);
+        console.log(`🚀 Servidor corriendo en ${baseUrl}`);
     });
 }
 
-export default app;
+export default app; // Exportar app para pruebas
