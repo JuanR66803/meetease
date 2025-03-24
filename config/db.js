@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import pkg from "pg";
 import dotenv from "dotenv";
 
