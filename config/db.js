@@ -8,7 +8,7 @@ const { Pool } = pkg;
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-        rejectUnauthorized: false, // Necesario para conexiones a servicios como Supabase o Neon
+        rejectUnauthorized: true, // Necesario para conexiones a servicios como Supabase o Neon
     },
 });
 
