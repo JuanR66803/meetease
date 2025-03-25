@@ -36,4 +36,5 @@ export const registerUser = async (req, res) => {
             stack: error.stack 
         });
     }
+    
 };
