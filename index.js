@@ -36,10 +36,16 @@ app.use(express.json()); // 💡 Necesario para que req.body no aparezca como 'a
 // 🔹 Configuración de CORS (💡 Soluciona problemas de preflight request)
 const allowedOrigins = [process.env.FRONTEND_URL || "http://localhost:5173"];
 app.use(cors({
-    origin: allowedOrigins, 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Acceso bloqueado por CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, 
+    credentials: true,
 }));
 
 // 🔹 Definir rutas
@@ -53,9 +59,8 @@ app.get("/", (req, res) => {
 // 🔹 Iniciar servidor
 if (process.env.NODE_ENV !== "test") {
     app.listen(PORT, () => {
-        console.log(🚀 Servidor corriendo en puerto ${PORT});
+        console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
     });
 }
 
 export default app;
-
