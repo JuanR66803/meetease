@@ -1,22 +1,14 @@
-import mongoose from "mongoose";
+import pool  from "../config/db.js";
 
-// 🔹 Definir el esquema de usuario
-const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-}, { timestamps: true });
-
-// 🔹 Crear el modelo
-const User = mongoose.model("User", userSchema);
 
 // 🔹 Función para buscar usuario por email
 export const findUserByEmail = async (email) => {
     try {
-        console.log("Buscando usuario en MongoDB...");
-        return await User.findOne({ email }); // Devuelve el usuario o null
+        console.log("🔍 Buscando usuario en PostgreSQL...");
+        const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        return rows[0] || null;
     } catch (error) {
-        console.error("Error en findUserByEmail:", error);
+        console.error("❌ Error en findUserByEmail:", error);
         throw error;
     }
 };
@@ -24,13 +16,14 @@ export const findUserByEmail = async (email) => {
 // 🔹 Función para crear un nuevo usuario
 export const createUser = async (name, email, password) => {
     try {
-        console.log("Creando nuevo usuario en MongoDB...");
-        const newUser = new User({ name, email, password });
-        return await newUser.save(); // Guarda y devuelve el usuario creado
+        console.log("🛠 Creando nuevo usuario en PostgreSQL...");
+        const { rows } = await pool.query(
+            "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+            [name, email, password]
+        );
+        return rows[0];
     } catch (error) {
-        console.error("Error en createUser:", error);
+        console.error("❌ Error en createUser:", error);
         throw error;
     }
 };
-
-export default User;

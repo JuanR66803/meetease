@@ -1,17 +1,19 @@
-import mongoose from "mongoose";
+import pkg from 'pg';
 import dotenv from "dotenv";
 
 dotenv.config();
+const { Pool } = pkg;
 
-const MONGO_URI = process.env.MONGO_URI;
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URI,
+    ssl: { rejectUnauthorized: false }
+});
 
-mongoose.connect(MONGO_URI, {
-    dbName: "meeteasedb" // Reemplaza con el nombre real de tu base de datos
-})
-    .then(() => console.log("✅ Conectado a MongoDB"))
+pool.connect()
+    .then(() => console.log("✅ Conectado a PostgreSQL en Supabase"))
     .catch((err) => {
-        console.error("❌ Error conectando a MongoDB:", err.message);
+        console.error("❌ Error conectando a PostgreSQL:", err.message);
         process.exit(1);
     });
 
-export default mongoose;
+export default pool;
