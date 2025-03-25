@@ -23,14 +23,19 @@ mongoose.connect(process.env.MONGO_URI)
     });
 
 // 🔹 Middlewares
-app.use(express.json()); 
+app.use(express.json());
 
 // 🔹 Configuración de CORS
-const allowedOrigins = [process.env.FRONTEND_URL || "http://localhost:5173"];
+const allowedOrigins = [
+    process.env.FRONTEND_URL || "http://localhost:5173",
+    "https://meetease-frontend.vercel.app"
+];
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.some(allowedOrigin => 
+            origin.startsWith(allowedOrigin)
+        )) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
@@ -47,6 +52,20 @@ app.use("/api", authRoutes);
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {
     res.json({ message: "MeetEase Backend funcionando correctamente 🚀" });
+});
+
+// 🔹 Manejo de rutas no encontradas
+app.use((req, res, next) => {
+    res.status(404).json({ message: "Ruta no encontrada" });
+});
+
+// 🔹 Manejo de errores global
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ 
+        message: "Ocurrió un error en el servidor", 
+        error: process.env.NODE_ENV === 'development' ? err.message : {} 
+    });
 });
 
 // 🔹 Iniciar servidor
