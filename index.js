@@ -26,7 +26,7 @@ app.use(express.json()); // 💡 Necesario para que req.body no aparezca como 'a
 
 // 🔹 **Configuración de CORS** (💡 Soluciona el problema de preflight request)
 app.use(cors({
-    origin: ["https://meetease-frontend.vercel.app"], // Permitir Vercel
+    origin: "*", // Permitir Vercel
     methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
     allowedHeaders: ["Content-Type", "Authorization"], // Encabezados permitidos
     credentials: true, // Permitir cookies/sesiones
