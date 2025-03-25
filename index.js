@@ -9,8 +9,6 @@ dotenv.config(); // Cargar variables de entorno
 
 const { Pool } = pkg;
 const app = express();
-const port = process.env.PORT || 5000;
-const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
 // 🔹 **Configuración de la base de datos**
 const pool = new Pool({
