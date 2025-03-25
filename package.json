@@ -18,10 +18,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
-    "npm": "^11.2.0",
-    "pg": "^8.14.1"
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.0"
   },
   "devDependencies": {
     "eslint-plugin-jest": "^28.11.0",

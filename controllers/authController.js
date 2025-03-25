@@ -1,5 +1,6 @@
 import {findUserByEmail, createUser} from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+
 export const registerUser = async (req, res) => {
     try {
         console.log("Recibiendo solicitud de registro:", req.body);
