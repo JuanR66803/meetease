@@ -11,7 +11,6 @@ const { Pool } = pkg;
 const app = express();
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(Servidor corriendo en puerto ${PORT}));
 
 // 🔹 **Configuración de la base de datos**
 const pool = new Pool({
@@ -45,8 +44,8 @@ app.get("/", (req, res) => {
 
 // 🔹 **Iniciar servidor**
 if (process.env.NODE_ENV !== "test") {
-    app.listen(port, () => {
-        console.log(`🚀 Servidor corriendo en ${baseUrl}`);
+    app.listen(PORT, () => {
+        console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
     });
 }
 

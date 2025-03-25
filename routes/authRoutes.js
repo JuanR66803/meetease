@@ -4,7 +4,7 @@ import { registerUser } from "../controllers/authController.js";
 const router = express.Router(); // ✅ Define el enrutador antes de usarlo
 
 // Rutas de autenticación
-router.get("/register", registerUser);
+router.post("/register", registerUser);
 
 // Ruta de prueba
 router.get("/test", (req, res) => {
