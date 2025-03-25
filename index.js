@@ -9,13 +9,14 @@ dotenv.config(); // Cargar variables de entorno
 
 const { Pool } = pkg;
 const app = express();
-const port = process.env.PORT || 5000;
-const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(Servidor corriendo en puerto ${PORT}));
 
 // 🔹 **Configuración de la base de datos**
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
 });
 
 // 🔹 **Verificar conexión a la base de datos**
@@ -25,7 +26,14 @@ pool.connect()
 
 // 🔹 **Middlewares**
 app.use(express.json()); // 💡 Necesario para que req.body no aparezca como 'any'
-app.use(cors());
+
+// 🔹 **Configuración de CORS** (💡 Soluciona el problema de preflight request)
+app.use(cors({
+    origin: "*", // Permitir Vercel
+    methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
+    allowedHeaders: ["Content-Type", "Authorization"], // Encabezados permitidos
+    credentials: true, // Permitir cookies/sesiones
+}));
 
 // 🔹 **Definir rutas**
 app.use("/api", authRoutes);
@@ -43,5 +51,3 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 export default app;
-
-// Exportar app para pruebas
