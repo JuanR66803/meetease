@@ -35,7 +35,6 @@ app.use(cors({
     credentials: true,
 }));
 
-
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -53,7 +52,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
 // 🔹 Definir rutas
 app.use("/api", authRoutes);
 
@@ -68,7 +66,6 @@ if (process.env.NODE_ENV !== "test") {
         console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
     });
 }
-
 
 export default app;
 
