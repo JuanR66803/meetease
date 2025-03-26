@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import  pkg  from "pg";
+import pkg from "pg";
 import authRoutes from "./routes/authRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js"; // Importamos las rutas de eventos
 
 dotenv.config(); // Cargar variables de entorno
 
@@ -45,6 +46,7 @@ app.use(cors({
 
 // 🔹 Definir rutas
 app.use("/api", authRoutes);
+app.use("/api/events", eventRoutes); // Agregamos la nueva ruta de eventos
 
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {
