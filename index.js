@@ -32,11 +32,6 @@ pool.connect()
 app.use(express.json());
 
 // 🔹 Configuración de CORS
-const allowedOrigins = [
-    process.env.FRONTEND_URL || "http://localhost:5173",
-    "https://meetease-frontend.vercel.app"
-];
-
 app.use(cors({
     origin: "*", // Temporal para pruebas
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
